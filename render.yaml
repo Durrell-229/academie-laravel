@@ -1,0 +1,77 @@
+services:
+  - type: web
+    name: learnopia-lms
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    region: frankfurt
+    branch: main
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: "Academie Numerique IA"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        value: https://learnopia-lms.onrender.com
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: error
+
+      # Base de données (MySQL) — à renseigner dans le dashboard Render
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+
+      # Session / Cache
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+
+      # Mail
+      - key: MAIL_MAILER
+        value: smtp
+      - key: MAIL_HOST
+        sync: false
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_ENCRYPTION
+        value: tls
+
+      # Paiements
+      - key: FEDAPAY_SECRET_KEY
+        sync: false
+      - key: FEDAPAY_PUBLIC_KEY
+        sync: false
+      - key: KKIAPAY_PRIVATE_KEY
+        sync: false
+      - key: KKIAPAY_PUBLIC_KEY
+        sync: false
+      - key: KKIAPAY_SECRET
+        sync: false
+
+      # IA (Prism / Anthropic)
+      - key: ANTHROPIC_API_KEY
+        sync: false
