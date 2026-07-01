@@ -18,13 +18,14 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN npm install && npm run build
 
-RUN php artisan config:cache && php artisan route:cache
-
 # Config Nginx
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 10000
+# Entrypoint qui gère le cache Laravel AU DEMARRAGE (variables d'env disponibles)
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD service nginx start && php-fpm
+EXPOSE 10000
+ENTRYPOINT ["/entrypoint.sh"]
