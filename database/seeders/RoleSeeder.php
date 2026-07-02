@@ -27,6 +27,7 @@ class RoleSeeder extends Seeder
             ['title' => 'Inspecteur',     'status' => 1],  // Inspecteur
 
             // ── Apprenants ───────────────────────────────────
+            ['title' => 'Apprenant',      'status' => 1],  // Apprenant (rôle par défaut à l'inscription)
             ['title' => 'Student',        'status' => 1],  // Étudiant scolaire
             ['title' => 'Learner',        'status' => 1],  // Apprenant adulte
             ['title' => 'Subscriber',     'status' => 1],  // Abonné (défaut)
