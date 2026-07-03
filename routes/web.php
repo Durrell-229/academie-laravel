@@ -192,14 +192,23 @@ require __DIR__.'/auth.php';
 
 // ROUTE TEMPORAIRE - SUPPRIMER APRÈS UTILISATION
 Route::get('/init-admin-2024', function () {
-    $columns = \Illuminate\Support\Facades\Schema::getColumnListing('admins');
-    return response()->json($columns);
-});
+    $admin = App\Models\Admin::where('email', 'admin@academienumerique.com')->first();
+    if ($admin) {
+        return 'Admin existe déjà : ' . $admin->email;
+    }
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/cours/{course}/payer', [PaymentController::class, 'show'])->name('payment.show');
-    Route::post('/cours/{course}/payer', [PaymentController::class, 'store'])->name('payment.store');
-    Route::get('/cours/paiement/retour', [PaymentController::class, 'retour'])->name('payment.retour');
+    App\Models\Admin::create([
+        'firstname' => 'Super',
+        'lastname'  => 'Admin',
+        'username'  => 'superadmin',
+        'email'     => 'admin@academienumerique.com',
+        'password'  => bcrypt('Admin@2024!'),
+        'phone'     => '+22900000000',
+        'role_id'   => 1,
+        'status'    => 1,
+    ]);
+
+    return 'Compte admin créé avec succès !';
 });
 
 Route::post('/webhook/kkiapay', [PaymentController::class, 'webhook'])->name('paiement.webhook');
