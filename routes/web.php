@@ -190,6 +190,11 @@ Route::post('/contact', function(\Illuminate\Http\Request $request) {
 
 require __DIR__.'/auth.php';
 
+// ROUTE TEMPORAIRE - SUPPRIMER APRÈS UTILISATION
+Route::get('/init-admin-2024', function () {
+    $columns = \Illuminate\Support\Facades\Schema::getColumnListing('admins');
+    return response()->json($columns);
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/cours/{course}/payer', [PaymentController::class, 'show'])->name('payment.show');
@@ -205,14 +210,3 @@ Route::post('/cours/{course}/fedapay', [PaymentController::class, 'fedapayInitie
 Route::get('/cours/{course}/fedapay/callback', [PaymentController::class, 'fedapayCallback'])
     ->name('payment.fedapay.callback');
 
-// ROUTE TEMPORAIRE — À SUPPRIMER APRÈS UTILISATION
-Route::get('/setup-admin-secret-xyz123', function () {
-    $admin = App\Models\Admin::where('email', 'admin@academienumerique.com')->first();
-    if ($admin) {
-        return 'Admin existe déjà : ' . $admin->email;
-    }
-    
-    // Voyons d'abord les colonnes disponibles
-    $columns = Schema::getColumnListing('admins');
-    return response()->json($columns);
-});
