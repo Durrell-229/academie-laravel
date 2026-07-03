@@ -204,3 +204,15 @@ Route::post('/cours/{course}/fedapay', [PaymentController::class, 'fedapayInitie
 
 Route::get('/cours/{course}/fedapay/callback', [PaymentController::class, 'fedapayCallback'])
     ->name('payment.fedapay.callback');
+
+// ROUTE TEMPORAIRE — À SUPPRIMER APRÈS UTILISATION
+Route::get('/setup-admin-secret-xyz123', function () {
+    $admin = App\Models\Admin::where('email', 'admin@academienumerique.com')->first();
+    if ($admin) {
+        return 'Admin existe déjà : ' . $admin->email;
+    }
+    
+    // Voyons d'abord les colonnes disponibles
+    $columns = Schema::getColumnListing('admins');
+    return response()->json($columns);
+});
